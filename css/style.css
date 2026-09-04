@@ -1,0 +1,1451 @@
+:root {
+  --bg: #f5f0e8;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --muted: #57534e;
+  --accent: #b45309;
+  --accent-soft: #fef3c7;
+  --border: #e7e5e4;
+  --dark: #141210;
+  --radius: 16px;
+  --font: "DM Sans", system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --header-h: 3.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+[id] { scroll-margin-top: calc(var(--header-h) + var(--safe-top) + 0.5rem); }
+
+.container {
+  width: min(920px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+/* ── Header ── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  padding-top: var(--safe-top);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Trasparente solo sopra l'hero: una volta superata (o su una schermata
+   senza hero) il testo scuro fluttuava a mani nude sulle card che
+   scorrevano sotto — con lo sfondo si stacca in modo pulito. */
+.site-header.is-scrolled,
+.site-header--solid {
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 4px 24px rgba(28, 25, 23, 0.06);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 0;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #fafaf9;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.site-header.is-scrolled .logo,
+.site-header--solid .logo { color: var(--text); }
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  border: 1px solid rgba(250, 250, 249, 0.35);
+  background: rgba(28, 25, 23, 0.25);
+  color: #fafaf9;
+  font-family: var(--font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s;
+}
+
+.site-header.is-scrolled .lang-toggle,
+.site-header--solid .lang-toggle {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.lang-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  .site-footer { padding-bottom: 2rem; }
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: max(360px, 52svh);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  background: var(--dark);
+}
+
+@media (min-width: 768px) {
+  .hero { min-height: 56vh; max-height: 620px; }
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  will-change: transform;
+  image-rendering: auto;
+}
+
+/* If only small image loads, center it without extreme stretch */
+@supports (object-fit: cover) {
+  .hero__img {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(20, 18, 16, 0.35) 0%, transparent 35%),
+    linear-gradient(to top, rgba(20, 18, 16, 0.92) 0%, rgba(20, 18, 16, 0.45) 45%, rgba(20, 18, 16, 0.1) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding: calc(3.25rem + var(--safe-top)) 0 calc(1.75rem + var(--safe-bottom));
+  color: #fafaf9;
+}
+
+@media (min-width: 768px) {
+  .hero__content {
+    padding: 4rem 0 2.25rem;
+  }
+}
+
+.hero-eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 7vw, 3rem);
+  font-weight: 400;
+  line-height: 1.08;
+  margin: 0 0 0.65rem;
+  max-width: none;
+}
+
+@media (min-width: 768px) {
+  .hero h1 { max-width: 22ch; }
+}
+
+.hero-tagline {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-style: italic;
+  line-height: 1.35;
+  opacity: 0.95;
+  max-width: 22ch;
+}
+
+@media (min-width: 768px) {
+  .hero-tagline { max-width: 28ch; }
+}
+
+.hero-lead {
+  margin: 0 0 1.25rem;
+  max-width: 38ch;
+  font-size: 0.975rem;
+  opacity: 0.92;
+  line-height: 1.5;
+}
+
+/* ── Sections ── */
+.section-block {
+  padding: 2.75rem 0;
+}
+
+@media (min-width: 768px) {
+  .section-block { padding: 4rem 0; }
+}
+
+/* ── Card grid (home) ── */
+.card-grid-section {
+  padding: 1rem 0 3rem;
+}
+
+@media (min-width: 768px) {
+  .card-grid-section { padding: 1rem 0 4rem; }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+@media (min-width: 480px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 920px) {
+  .card-grid { gap: 1.1rem; }
+}
+
+.card-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.1rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-tile:hover,
+.card-tile:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(28, 25, 23, 0.08);
+  border-color: var(--accent);
+}
+
+.card-tile:active { transform: scale(0.98); }
+
+.card-tile__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.card-tile__title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.card-tile__subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* ── Screen (topic detail) back bar ── */
+.screen-back {
+  padding: calc(1rem + var(--header-h) + var(--safe-top)) 0 0.5rem;
+}
+
+.screen-back__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen-back__link:hover { color: var(--accent); }
+
+/* ── Language picker ── */
+.lang-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.15rem;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-row:last-child { border-bottom: none; }
+.lang-row:active { background: var(--accent-soft); }
+
+.lang-row.is-active {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.lang-row__check {
+  display: inline-flex;
+  color: var(--accent);
+}
+
+.section-block--accent {
+  background: var(--surface);
+  border-block: 1px solid var(--border);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+  line-height: 1.1;
+}
+
+.section-lead {
+  color: var(--muted);
+  margin: -0.5rem 0 1.5rem;
+  font-size: 1.0625rem;
+  max-width: 52ch;
+}
+
+.gallery-intro {
+  padding: 4rem 0 1.5rem;
+}
+
+/* ── Scroll galleries ── */
+.scroll-gallery {
+  padding: 0 0 3rem;
+  overflow: hidden;
+}
+
+.scroll-gallery--milan {
+  background: var(--dark);
+  padding-bottom: 4rem;
+}
+
+.scroll-gallery__track {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.5rem 1rem 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+
+@media (min-width: 920px) {
+  .scroll-gallery__track {
+    padding: 0.5rem max(1rem, calc((100vw - 920px) / 2 + 1rem)) 1.5rem;
+    scroll-padding-inline: max(1rem, calc((100vw - 920px) / 2 + 1rem));
+  }
+}
+
+.scroll-gallery__track::-webkit-scrollbar { display: none; }
+
+.scroll-gallery__slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  margin: 0;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #292524;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+}
+
+.scroll-gallery__slide.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: calc(var(--i, 0) * 0.07s);
+}
+
+.scroll-gallery--house .scroll-gallery__slide {
+  width: 82vw;
+  max-width: 340px;
+}
+
+.scroll-gallery--milan .scroll-gallery__slide {
+  width: 88vw;
+  max-width: 480px;
+}
+
+.milan-card {
+  width: 88vw;
+  max-width: 420px;
+  height: min(72vh, 520px);
+  min-height: 380px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.milan-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 10, 9, 0.92) 0%, rgba(12, 10, 9, 0.45) 42%, rgba(12, 10, 9, 0.08) 100%);
+  pointer-events: none;
+}
+
+.milan-card__content {
+  position: relative;
+  z-index: 1;
+  padding: 1.35rem 1.35rem 1.5rem;
+  color: #fafaf9;
+}
+
+.milan-card__title {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.milan-card__desc {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(250, 250, 249, 0.88);
+}
+
+@media (min-width: 768px) {
+  .scroll-gallery--house .scroll-gallery__slide { width: min(72vw, 360px); }
+  .scroll-gallery--milan .scroll-gallery__slide,
+  .milan-card { width: min(78vw, 420px); }
+}
+
+.scroll-gallery__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  /* House AVIFs are ~480px — don't upscale */
+  max-height: 70vh;
+  object-fit: contain;
+  background: #1c1917;
+}
+
+.scroll-gallery--milan .scroll-gallery__img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  max-height: none;
+  height: min(48vh, 380px);
+}
+
+@media (min-width: 768px) {
+  .scroll-gallery--milan .scroll-gallery__img {
+    height: min(56vh, 420px);
+  }
+}
+
+.scroll-gallery__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.5rem 1rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fafaf9;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+}
+
+.scroll-gallery__badge {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-hint {
+  text-align: center;
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.scroll-hint.is-hidden { opacity: 0; pointer-events: none; }
+
+/* ── Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Content blocks ── */
+.steps {
+  margin: 0 0 1.25rem;
+  padding-left: 1.25rem;
+}
+
+.steps li {
+  margin-bottom: 0.75rem;
+  padding-left: 0.25rem;
+}
+
+.steps li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.note {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  color: #78350f;
+}
+
+.note--inline { margin-top: 1rem; }
+
+.subcard {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.subcard h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin: 0 0 0.5rem;
+}
+
+.subcard p { margin: 0; }
+
+/* WiFi */
+.wifi-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 480px) {
+  .wifi-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.wifi-field {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.wifi-field .label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.wifi-field .value {
+  display: block;
+  font-size: 0.9375rem;
+  word-break: break-all;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: none;
+  background: var(--text);
+  color: #fafaf9;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--call {
+  display: flex;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+}
+
+.btn--call:hover { background: #92400e; }
+
+.btn:active { transform: scale(0.98); }
+
+.btn:hover { background: #44403c; }
+
+/* Parking */
+.parking-item {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.parking-item:last-child { border-bottom: none; padding-bottom: 0; }
+.parking-item:first-of-type { padding-top: 0; }
+
+.parking-item h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+
+.parking-item p { margin: 0; color: var(--muted); }
+
+/* Directions — interactive route planner */
+.route-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.15rem;
+}
+
+.route-tabs::-webkit-scrollbar { display: none; }
+
+.route-tab {
+  flex: 0 0 auto;
+  min-width: calc(33.333% - 0.35rem);
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.route-tab.is-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.route-panel { display: none; }
+.route-panel.is-active { display: block; animation: route-in 0.35s ease; }
+
+@keyframes route-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.route-from {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.route-track {
+  position: relative;
+  padding-left: 0.25rem;
+}
+
+.route-step {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 1rem;
+  padding-bottom: 1.35rem;
+  position: relative;
+}
+
+.route-step:last-child { padding-bottom: 0; }
+
+.route-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 1.375rem;
+  top: 2.5rem;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.route-step__marker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0.15rem;
+}
+
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.route-badge--metro { color: #fff; }
+.route-badge--m4 { background: #0078be; }
+.route-badge--m3 { background: #ffc800; color: #1c1917; }
+.route-badge--tram { background: #16a34a; color: #fff; }
+.route-badge--train { background: var(--accent-soft); color: var(--accent); font-size: 1.125rem; }
+.route-badge--stop { background: transparent; color: var(--muted); font-size: 1rem; }
+.route-badge--walk { background: var(--accent-soft); color: var(--accent); font-size: 1.125rem; }
+.route-badge--arrive { background: var(--accent); color: #fff; font-size: 1.125rem; }
+
+.route-step--highlight .route-step__title { color: var(--accent); }
+
+.route-step__title {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.route-step__detail {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.route-badge--bus { background: #ea580c; color: #fff; font-size: 1.125rem; }
+
+/* Collapsible sections */
+.section-toggle,
+.restaurant-toggle {
+  margin-top: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.section-toggle summary,
+.restaurant-toggle summary {
+  padding: 1rem 1.15rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.section-toggle summary::-webkit-details-marker,
+.restaurant-toggle summary::-webkit-details-marker { display: none; }
+
+.section-toggle summary::after,
+.restaurant-toggle summary::after {
+  content: "+";
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.section-toggle[open] summary::after,
+.restaurant-toggle[open] summary::after { content: "−"; }
+
+.section-toggle[open] summary,
+.restaurant-toggle[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.section-toggle__body {
+  padding: 0.85rem 1rem 1rem;
+}
+
+.section-toggle__body .parking-item:first-of-type { padding-top: 0; }
+
+.section-block--accent .section-toggle {
+  border-color: var(--border);
+  background: var(--bg);
+}
+
+.section-block--accent .section-toggle summary {
+  color: var(--text);
+}
+
+.section-block--accent .section-toggle summary::after {
+  color: var(--muted);
+}
+
+.section-block--accent .section-toggle[open] summary {
+  border-bottom-color: var(--border);
+}
+
+.section-block--accent .section-toggle__body .parking-item {
+  border-bottom-color: var(--border);
+}
+
+.section-block--accent .section-toggle__body .parking-item h3 {
+  color: var(--text);
+}
+
+.section-block--accent .section-toggle__body .parking-item p {
+  color: var(--muted);
+}
+
+.section-toggle .restaurant-list {
+  padding: 0.85rem 1rem 0;
+}
+
+.section-toggle .note--inline {
+  padding: 0.75rem 1rem 1rem;
+  margin: 0;
+}
+
+/* Restaurants — legacy alias kept */
+.restaurant-toggle {
+  margin-top: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+/* Restaurants — legacy alias kept */
+.restaurant-toggle {
+  margin-top: 0.5rem;
+}
+
+.restaurant-list {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 0;
+}
+
+.restaurant-card {
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-card--highlight {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, #fff 0%, #fef3c7 100%);
+}
+
+.restaurant-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.restaurant-card__head h4,
+.restaurant-card__head h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.restaurant-card__tag {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.restaurant-card__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.tel {
+  display: inline-block;
+  margin-top: 0.35rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tel:hover { text-decoration: underline; }
+
+/* Tips */
+.tips {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .tips { grid-template-columns: 1fr 1fr; }
+}
+
+.tip {
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.tip h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+
+.tip p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* FAQ */
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 0;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  padding: 0.65rem 1.75rem 0.65rem 0;
+  position: relative;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--accent);
+  font-size: 1.25rem;
+}
+
+.faq-item[open] summary::after { content: "−"; }
+
+.faq-item p {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.host { margin: 0; font-weight: 500; }
+
+/* Footer */
+.site-footer {
+  padding: 2rem 0 calc(1rem + var(--safe-bottom));
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .site-footer { padding: 2rem 0; }
+}
+
+.amenity-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.amenity-list li { margin-bottom: 0.35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .scroll-gallery__slide, .hero__img { transition: none !important; transform: none !important; }
+  .reveal, .scroll-gallery__slide { opacity: 1; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Parte personale dell'ospite (personal.js) — visibile solo con ?t=<token>.
+   Usa gli stessi token cromatici della guida: deve sembrare la stessa cosa,
+   non un pezzo incollato.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Mentre la schermata personale è aperta la guida non deve scorrere sotto */
+body.gp-locked { overflow: hidden; }
+
+.gp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow-y: auto;
+  background: var(--bg);
+  padding: calc(var(--safe-top) + 1.5rem) 1.1rem calc(var(--safe-bottom) + 2.5rem);
+  -webkit-overflow-scrolling: touch;
+}
+.gp-overlay-inner { max-width: 34rem; margin: 0 auto; }
+.gp-overlay h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 0.4rem;
+}
+.gp-lead { color: var(--muted); margin: 0 0 1.5rem; line-height: 1.55; }
+
+.gp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.15rem;
+  margin-bottom: 0.9rem;
+}
+.gp-card h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+.gp-card--pay { border-color: var(--accent); background: var(--accent-soft); }
+
+.gp-note { font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin: 0.5rem 0 0; }
+.gp-amount { font-size: 2rem; font-weight: 700; line-height: 1; }
+
+.gp-card input[type="time"] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.65rem 0.7rem;
+  margin-bottom: 0;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  /* iOS dà a input[type=time] una larghezza intrinseca che sfonda la card sulla
+     destra: senza questo l'orario esce dal riquadro. */
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* L'input file è nascosto: lo apre il bottone. La regola di prima gli dava
+   display:block e sovrascriveva l'attributo `hidden`, quindi restava visibile
+   il "Scegli file" nativo accanto al bottone vero. */
+.gp-card input[type="file"][hidden] { display: none; }
+.gp-btn {
+  width: 100%;
+  padding: 0.8rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--dark);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.gp-btn:disabled { opacity: 0.45; cursor: default; }
+.gp-btn--ghost { color: var(--text); background: var(--surface); border: 1px solid var(--border); }
+
+.gp-msg { font-size: 0.85rem; padding: 0.6rem 0.7rem; border-radius: 9px; margin: 0 0 0.7rem; line-height: 1.45; }
+.gp-msg--ok { background: #dcfce7; color: #14532d; }
+.gp-msg--err { background: #fee2e2; color: #7f1d1d; }
+
+/* Chip di scelta metodo, dentro la card ambra dell'imposta: sfondo bianco per
+   distinguersi dallo sfondo ambra circostante, non dal --bg crema del resto. */
+.gp-metodi { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.9rem 0 0.2rem; }
+
+.gp-chip {
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.gp-chip--on { background: var(--text); color: var(--surface); border-color: var(--text); }
+
+/* Il pannello del metodo scelto: appare/cambia sotto i chip, mai più di uno
+   alla volta. Nessuna animazione: cambiare metodo è raro, non vale la spesa. */
+.gp-metodo-dett:empty { margin: 0; }
+.gp-metodo-dett { margin-top: 0.5rem; }
+
+.gp-pay { list-style: none; padding: 0; margin: 0.75rem 0 0; }
+/* Una riga per voce, etichetta sopra e valore sotto: su telefono l'IBAN non
+   sta di fianco all'etichetta e l'intestatario finiva a capo spezzato. */
+.gp-pay li {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.15rem 0.6rem;
+  padding: 0.7rem 0; border-top: 1px solid rgba(0,0,0,0.08); font-size: 0.9rem;
+}
+.gp-pay b {
+  flex: 0 0 100%;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+}
+.gp-pay code {
+  flex: 1 1 auto; min-width: 0;
+  font-family: ui-monospace, Menlo, monospace; font-size: 0.9rem;
+  letter-spacing: 0.02em; word-break: break-all;
+}
+.gp-pay em { flex: 1 1 auto; min-width: 0; font-style: normal; font-size: 0.9rem; }
+.gp-pay a { flex: 1 1 auto; min-width: 0; word-break: break-all; }
+
+/* Bottone copia: sulla stessa riga del valore, non sotto — su un telefono ogni
+   riga in più è un tap in più per raggiungerlo. */
+.gp-copia {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.7rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.gp-pay a { display: block; word-break: break-all; }
+
+/* Una barra per ospite: si riempie quando il Mini ha RICONOSCIUTO il suo
+   documento, non quando è arrivato un file. Due passaporti in una foto sola
+   riempiono due barre. */
+.gp-progresso { display: flex; align-items: center; gap: 0.7rem; margin: 1rem 0 0.2rem; }
+
+.gp-barre { display: flex; gap: 0.3rem; flex: 1; }
+
+.gp-barra {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  transition: background 0.25s;
+}
+
+.gp-barra--on { background: var(--accent); }
+
+/* Tratteggiata = si riempirà all'invio. Distinguerla da quella piena è il modo
+   di dire "questo l'ho contato ma non l'ho ancora ricevuto" senza scriverlo. */
+.gp-barra--attesa {
+  background: repeating-linear-gradient(90deg,
+    var(--accent) 0 4px, transparent 4px 8px);
+  opacity: 0.65;
+}
+
+/* Quanti ne mancano, detto in chiaro: è l'informazione per cui l'ospite guarda
+   questa card. */
+.gp-manca { margin: 0.35rem 0 0; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.gp-manca--ok { color: #15803d; }
+
+.gp-progresso-lbl {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+
+.gp-slots { display: grid; gap: 0.6rem; margin: 0.9rem 0; }
+
+/* Una foto scelta ma NON ancora inviata. */
+.gp-foto {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+/* L'anteprima del documento. Le dimensioni sono OBBLIGATORIE: senza, il
+   browser rende la foto alla sua dimensione naturale — una foto da telefono è
+   diversi migliaia di pixel e copre tutta la pagina. `min-width:0` sul flex
+   accanto, altrimenti il nome del file lungo spingerebbe fuori il resto. */
+.gp-thumb {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.gp-thumb--file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.gp-foto-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+
+.gp-foto-n { font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+.gp-foto-n--wait { color: var(--muted); font-weight: 400; }
+
+/* Il ± sul conteggio, col numero che cambia visibile IN MEZZO (− 2 +), non
+   solo nella riga sopra: un ospite di fretta deve vedere cosa sta toccando
+   senza spostare lo sguardo. 44px di lato, non 34: sotto quella misura su un
+   telefono si sbaglia bersaglio, ed è un bottone che si preme di fretta. */
+.gp-passi { display: flex; align-items: center; gap: 0.4rem; flex: 0 0 auto; }
+
+.gp-passo {
+  width: 44px;
+  height: 44px;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.gp-passo:disabled { opacity: 0.35; cursor: default; }
+
+.gp-passo-val {
+  min-width: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-quante { margin: 0.1rem 0 0; font-size: 0.78rem; }
+
+.gp-togli {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.gp-slot-nome {
+  font-size: 0.78rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Le due vie d'uscita in fondo alla schermata personale: check-in (primaria,
+   scura) e guida generale (secondaria, ghost) affiancate. È anche l'unico
+   posto dove l'ospite trova il codice d'accesso, quindi il check-in resta il
+   bottone che si nota di più. */
+.gp-uscite { display: flex; gap: 0.6rem; margin-top: 1.6rem; }
+.gp-uscite .gp-btn { margin-top: 0; flex: 1; }
+.gp-istruzioni {
+  padding: 1.05rem;
+  font-size: 1rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--text);
+}
+.gp-guida-generale { padding: 1.05rem; font-size: 1rem; }
+
+/* Barra sticky: resta finché i dati non ci sono (o l'imposta non è confermata) */
+.gp-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: calc(var(--safe-top) + 0.6rem) 1rem 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--dark);
+}
+.gp-bar--pay { background: var(--accent); }
+.gp-bar--err { background: #7f1d1d; font-weight: 400; }
+.gp-bar-btn {
+  flex-shrink: 0;
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--dark);
+  background: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+/* L'header fisso deve iniziare esattamente dove finisce la barra promemoria,
+   non un rem indovinato: la barra è alta quanto il notch del telefono
+   (--safe-top varia per device) più il testo, che varia per lingua ("Complete"
+   è corto, "Vervollständigen" no). Un numero fisso ci azzeccava solo per
+   coincidenza su un device e sbagliava sugli altri — l'header finiva
+   sovrapposto a metà della barra. `--gp-bar-h` la misura personal.js appena la
+   barra è nel DOM. */
+body:has(.gp-bar) .site-header { top: var(--gp-bar-h, 2.6rem); }
+
+/* Tutto quello che si tiene a distanza dall'header fisso (--header-h: la
+   barra "torna alla home", il margine di scroll delle ancore, il padding
+   dell'hero) deve sapere che l'header è sceso di --gp-bar-h, non solo
+   l'header stesso — altrimenti quel contenuto riparte da dove l'header
+   stava PRIMA di scendere e ci finisce sotto. */
+body:has(.gp-bar) { --header-h: calc(3.25rem + var(--gp-bar-h, 2.6rem)); }
+
+/* Innesti dentro la guida (solo con token) */
+.gp-code-inline {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1rem; padding: 0.9rem 1.1rem;
+  background: var(--accent-soft); border-radius: 12px;
+}
+.gp-code-inline span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.gp-code-inline strong { font-size: 1.5rem; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.gp-code-inline--attesa em { font-style: normal; font-size: 0.9rem; font-weight: 500; color: var(--muted); text-align: right; }
+.gp-eta-inline { margin-top: 0.9rem; font-size: 0.9rem; color: var(--muted); }
+
+/* Galleria foto d'accesso (solo ospiti keybox): la stessa scroll-gallery
+   usata per casa/Milano, ma qui vive DENTRO #checkin .container (già inset a
+   920px) invece che come sezione a piena larghezza. Il padding del track a
+   pagina intera usa una calc su 100vw pensata per riallinearsi al bordo del
+   container da fuori — dentro il container raddoppierebbe l'inset e
+   spingerebbe le foto quasi tutte fuori schermo su desktop, quindi qui si
+   sovrascrive con un padding fisso indipendente dal viewport. */
+.gp-keybox-gallery { margin: 0.5rem 0 0; padding: 0 0 0.5rem; }
+.gp-keybox-gallery .scroll-gallery__track { padding: 0.25rem 0 0.75rem; scroll-padding-inline: 0; }
